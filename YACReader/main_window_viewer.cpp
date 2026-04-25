@@ -696,6 +696,14 @@ void MainWindowViewer::createToolBars()
     auto helpMenu = new QMenu(tr("Help"));
     helpMenu->addAction(helpAboutAction);
 
+    auto turnOffUpdatesAction = new QAction(tr("Turn off updates"), this);
+    turnOffUpdatesAction->setCheckable(true);
+    turnOffUpdatesAction->setChecked(Configuration::getConfiguration().getTurnOffUpdates());
+    connect(turnOffUpdatesAction, &QAction::toggled, [](bool checked) {
+        Configuration::getConfiguration().setTurnOffUpdates(checked);
+    });
+    helpMenu->addAction(turnOffUpdatesAction);
+
     menuBar->addMenu(fileMenu);
     menuBar->addMenu(editMenu);
     menuBar->addMenu(viewMenu);
@@ -1134,6 +1142,8 @@ void MainWindowViewer::toggleWidthHeight()
 }
 void MainWindowViewer::checkNewVersion()
 {
+    if (Configuration::getConfiguration().getTurnOffUpdates())
+        return;
     Configuration &conf = Configuration::getConfiguration();
     QDate lastCheck = conf.getLastVersionCheck();
     QDate current = QDate::currentDate();
