@@ -113,8 +113,14 @@ public:
         return settings->value(DISABLE_SCROLL_ANIMATION, defaultValue).toBool();
     }
 
-    MouseMode getMouseMode() { return static_cast<MouseMode>(settings->value(MOUSE_MODE, MouseMode::Normal).toInt()); }
-    void setMouseMode(MouseMode mouseMode) { settings->setValue(MOUSE_MODE, static_cast<int>(mouseMode)); }
+    MouseMode getMouseMode()
+    {
+        return static_cast<MouseMode>(settings->value(MOUSE_MODE, MouseMode::Normal).toInt());
+    }
+    void setMouseMode(MouseMode mouseMode)
+    {
+        settings->setValue(MOUSE_MODE, static_cast<int>(mouseMode));
+    }
 };
 
 }

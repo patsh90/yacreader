@@ -5,10 +5,12 @@ on:
     branches:
       - master
       - develop
+      - turn-off-updates
   pull_request:
     branches:
       - master
       - develop
+      - turn-off-updates
 
 env:
   IS_ORIGINAL_REPO: ${{ github.repository == 'YACReader/yacreader' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop') }}
@@ -140,6 +142,100 @@ jobs:
       
       - name: Run tests
         run: make check TESTARGS="-maxwarnings 100000"
+
+  # Linux deb package (Ubuntu 22.04 Qt5)
+  linux-deb-22:
+    name: Linux Deb (Ubuntu 22.04 Qt5)
+    runs-on: ubuntu-22.04
+    needs: [initialization, code-format-validation]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qtchooser qtbase5-dev-tools qt5-qmake \
+          qtbase5-dev qtmultimedia5-dev libpoppler-qt5-dev qttools5-dev-tools \
+          libqt5opengl5-dev libunarr-dev qtdeclarative5-dev libqt5svg5-dev qtquickcontrols2-5-dev \
+          dpkg-dev debhelper
+
+      - name: Build
+        run: |
+          export DEFINES_VAR=DEFINES+=\"BUILD_NUMBER=\\\\\\\"${{ needs.initialization.outputs.build_number }}\\\\\\\"\"
+          qmake CONFIG+="unarr" $DEFINES_VAR
+          make
+
+      - name: Create deb package
+        run: |
+          VERSION="$(cat common/yacreader_global.h | grep '#define VERSION "' | tr -d '#define VERSION' | tr -d '"' )"
+          PKGVERSION="$VERSION-${{ needs.initialization.outputs.build_number }}"
+          DESTDIR=debian/tmp make install
+          mkdir -p debian/tmp/DEBIAN
+          cat > debian/tmp/DEBIAN/control << EOF
+          Package: yacreader
+          Version: $PKGVERSION
+          Section: Graphics
+          Priority: optional
+          Architecture: amd64
+          Depends: libqt5opengl5, libpoppler-qt5-1, libunarr1, qt5-qml-bindings
+          Maintainer: YACReader
+          Description: YACReader comic book reader
+          EOF
+          dpkg-deb --build debian/tmp yacreader_${PKGVERSION}_amd64.deb
+
+      - name: Upload deb package
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-deb-22-${{ needs.initialization.outputs.build_number }}
+          path: yacreader*.deb
+
+  # Linux deb package (Ubuntu 24.04 Qt6)
+  linux-deb-24:
+    name: Linux Deb (Ubuntu 24.04 Qt6)
+    runs-on: ubuntu-24.04
+    needs: [initialization, code-format-validation]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qtchooser qt6-tools-dev qt6-base-dev-tools qmake6 qmake6-bin \
+          qt6-base-dev qt6-multimedia-dev qt6-tools-dev-tools libgl-dev qt6-l10n-tools \
+          libqt6opengl6-dev libunarr-dev qt6-declarative-dev libqt6svg6-dev libqt6core5compat6-dev libpoppler-qt6-dev \
+          dpkg-dev debhelper
+
+      - name: Build
+        run: |
+          qtchooser -list-versions
+          export DEFINES_VAR=DEFINES+=\"BUILD_NUMBER=\\\\\\\"${{ needs.initialization.outputs.build_number }}\\\\\\\"\"
+          qmake6 CONFIG+="unarr" $DEFINES_VAR
+          qmake6 -v
+          make
+
+      - name: Create deb package
+        run: |
+          VERSION="$(cat common/yacreader_global.h | grep '#define VERSION "' | tr -d '#define VERSION' | tr -d '"' )"
+          PKGVERSION="$VERSION-${{ needs.initialization.outputs.build_number }}"
+          DESTDIR=debian/tmp make install
+          mkdir -p debian/tmp/DEBIAN
+          cat > debian/tmp/DEBIAN/control << EOF
+          Package: yacreader
+          Version: $PKGVERSION
+          Section: Graphics
+          Priority: optional
+          Architecture: amd64
+          Depends: libqt6opengl6, libpoppler-qt6-1, libunarr1, qt6-qml-bindings
+          Maintainer: YACReader
+          Description: YACReader comic book reader
+          EOF
+          dpkg-deb --build debian/tmp yacreader_${PKGVERSION}_amd64.deb
+
+      - name: Upload deb package
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-deb-24-${{ needs.initialization.outputs.build_number }}
+          path: yacreader*.deb
 
   # macOS Qt6 Universal build
   macos-qt6-universal:
@@ -910,6 +1006,8 @@ jobs:
       - linux
       - linux-qt6
       - linux-qt6-7zip
+      - linux-deb-22
+      - linux-deb-24
       - macos
       - macos-qt6-universal
       - windows-x86
@@ -1024,6 +1122,8 @@ jobs:
       - linux
       - linux-qt6
       - linux-qt6-7zip
+      - linux-deb-22
+      - linux-deb-24
       - macos
       - macos-qt6-universal
       - windows-x86
