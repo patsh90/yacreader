@@ -70,7 +70,12 @@ jobs:
         run: |
           VERSION="$(cat common/yacreader_global.h | grep '#define VERSION "' | tr -d '#define VERSION' | tr -d '"' )"
           PKGVERSION="$VERSION-${{ needs.initialization.outputs.build_number }}"
-          DESTDIR=debian/tmp make install
+          mkdir -p debian/tmp/usr/bin
+          mkdir -p debian/tmp/usr/share/applications
+          mkdir -p debian/tmp/usr/share/icons/hicolor/256x256/apps
+          cp YACReader/YACReader debian/tmp/usr/bin/
+          cp YACReaderLibrary/YACReaderLibrary debian/tmp/usr/bin/
+          cp YACReaderLibraryServer/YACReaderLibraryServer debian/tmp/usr/bin/
           mkdir -p debian/tmp/DEBIAN
           cat > debian/tmp/DEBIAN/control << EOF
           Package: yacreader
@@ -117,7 +122,12 @@ jobs:
         run: |
           VERSION="$(cat common/yacreader_global.h | grep '#define VERSION "' | tr -d '#define VERSION' | tr -d '"' )"
           PKGVERSION="$VERSION-${{ needs.initialization.outputs.build_number }}"
-          DESTDIR=debian/tmp make install
+          mkdir -p debian/tmp/usr/bin
+          mkdir -p debian/tmp/usr/share/applications
+          mkdir -p debian/tmp/usr/share/icons/hicolor/256x256/apps
+          cp YACReader/YACReader debian/tmp/usr/bin/
+          cp YACReaderLibrary/YACReaderLibrary debian/tmp/usr/bin/
+          cp YACReaderLibraryServer/YACReaderLibraryServer debian/tmp/usr/bin/
           mkdir -p debian/tmp/DEBIAN
           cat > debian/tmp/DEBIAN/control << EOF
           Package: yacreader
