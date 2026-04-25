@@ -95,6 +95,8 @@ public:
     void setShowTimeInInformation(bool b) { settings->setValue(SHOW_TIME_IN_INFO, b); }
     QDate getLastVersionCheck() { return settings->value(LAST_VERSION_CHECK).toDate(); }
     void setLastVersionCheck(const QDate &date) { settings->setValue(LAST_VERSION_CHECK, date); }
+    bool getTurnOffUpdates() { return settings->value(TURN_OFF_UPDATES, false).toBool(); }
+    void setTurnOffUpdates(bool b) { settings->setValue(TURN_OFF_UPDATES, b); }
     int getNumDaysBetweenVersionChecks() { return settings->value(NUM_DAYS_BETWEEN_VERSION_CHECKS, 1).toInt(); }
     void setNumDaysBetweenVersionChecks(int days) { return settings->setValue(NUM_DAYS_BETWEEN_VERSION_CHECKS, days); }
     bool getQuickNaviMode() { return settings->value(QUICK_NAVI_MODE).toBool(); }
@@ -113,8 +115,14 @@ public:
         return settings->value(DISABLE_SCROLL_ANIMATION, defaultValue).toBool();
     }
 
-    MouseMode getMouseMode() { return static_cast<MouseMode>(settings->value(MOUSE_MODE, MouseMode::Normal).toInt()); }
-    void setMouseMode(MouseMode mouseMode) { settings->setValue(MOUSE_MODE, static_cast<int>(mouseMode)); }
+    MouseMode getMouseMode()
+    {
+        return static_cast<MouseMode>(settings->value(MOUSE_MODE, MouseMode::Normal).toInt());
+    }
+    void setMouseMode(MouseMode mouseMode)
+    {
+        settings->setValue(MOUSE_MODE, static_cast<int>(mouseMode));
+    }
 };
 
 }

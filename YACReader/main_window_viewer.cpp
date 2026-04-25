@@ -1134,6 +1134,8 @@ void MainWindowViewer::toggleWidthHeight()
 }
 void MainWindowViewer::checkNewVersion()
 {
+    if (Configuration::getConfiguration().getTurnOffUpdates())
+        return;
     Configuration &conf = Configuration::getConfiguration();
     QDate lastCheck = conf.getLastVersionCheck();
     QDate current = QDate::currentDate();

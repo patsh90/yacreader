@@ -108,6 +108,21 @@ OptionsDialog::OptionsDialog(QWidget *parent)
     layoutGeneral->addWidget(scrollBox);
     layoutGeneral->addWidget(mouseModeBox);
     layoutGeneral->addWidget(shortcutsBox);
+
+    auto updatesBox = new QGroupBox(tr("Updates"));
+    updatesBox->setStyleSheet(
+            "QGroupBox { border: 2px solid red; border-radius: 4px; margin-top: 8px; }"
+            "QGroupBox::title { color: red; subcontrol-origin: margin; padding: 0 4px; }");
+    auto updatesLayout = new QVBoxLayout();
+    auto warningLabel = new QLabel(tr("Warning: disabling update checks means you will not be notified about new releases."));
+    warningLabel->setStyleSheet("color: red; font-weight: bold;");
+    warningLabel->setWordWrap(true);
+    turnOffUpdatesCheckBox = new QCheckBox(tr("Turn off checking for updates"));
+    updatesLayout->addWidget(warningLabel);
+    updatesLayout->addWidget(turnOffUpdatesCheckBox);
+    updatesBox->setLayout(updatesLayout);
+    layoutGeneral->addWidget(updatesBox);
+
     layoutGeneral->addStretch();
 
     // GENERAL END ---------------------------------------
@@ -280,6 +295,7 @@ void OptionsDialog::saveOptions()
         mouseMode = HotAreas;
     }
     Configuration::getConfiguration().setMouseMode(mouseMode);
+    Configuration::getConfiguration().setTurnOffUpdates(turnOffUpdatesCheckBox->isChecked());
 
     YACReaderOptionsDialog::saveOptions();
 }
@@ -323,6 +339,7 @@ void OptionsDialog::restoreOptions(QSettings *settings)
 
     doNotTurnPageOnScroll->setChecked(settings->value(DO_NOT_TURN_PAGE_ON_SCROLL, false).toBool());
     useSingleScrollStepToTurnPage->setChecked(settings->value(USE_SINGLE_SCROLL_STEP_TO_TURN_PAGE, false).toBool());
+    turnOffUpdatesCheckBox->setChecked(Configuration::getConfiguration().getTurnOffUpdates());
 
 #ifdef Q_OS_MACOS
     auto defaultDisableScrollAnimationsValue = true;
