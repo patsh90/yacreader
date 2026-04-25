@@ -43,7 +43,11 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Install dependencies
-        run: brew install clang-format
+        run: |
+          wget https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.8/LLVM-20.1.8-macOS-ARM64.tar.xz
+          tar -xf LLVM-20.1.8-macOS-ARM64.tar.xz
+          sudo cp LLVM-20.1.8-macOS-ARM64/bin/clang-format* /usr/local/bin/
+          rm -rf LLVM-20.1.8-macOS-ARM64*
       
       - name: Run clang-format
         run: |
