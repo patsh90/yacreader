@@ -30,6 +30,7 @@ SOURCES+=$$PWD/unarr-master/common/conv.c\
 		$$PWD/unarr-master/lzmasdk/Ppmd8.c\
 		$$PWD/unarr-master/lzmasdk/LzmaDec.c\
 		$$PWD/unarr-master/lzmasdk/Ppmd7Dec.c\
+		$$PWD/unarr-master/lzmasdk/Ppmd7aDec.c\
 		$$PWD/unarr-master/lzmasdk/Ppmd8Dec.c\
 		$$PWD/unarr-master/zip/inflate.c\
 		$$PWD/unarr-master/zip/parse-zip.c\
