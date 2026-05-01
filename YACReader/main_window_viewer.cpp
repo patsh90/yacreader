@@ -835,7 +835,10 @@ void MainWindowViewer::open(QString path, ComicDB &comic, QList<ComicDB> &siblin
     int index = siblings.indexOf(comic);
     updatePrevNextActions(index > 0, index + 1 < siblings.count());
 
+    QT_WARNING_PUSH
+    QT_WARNING_DISABLE_DEPRECATED
     optionsDialog->setFilters(currentComicDB.info.brightness, currentComicDB.info.contrast, currentComicDB.info.gamma);
+    QT_WARNING_POP
 }
 
 void MainWindowViewer::open(QString path, qint64 comicId, qint64 libraryId, YACReader::OpenComicSource source)
@@ -863,7 +866,10 @@ void MainWindowViewer::open(QString path, qint64 comicId, qint64 libraryId, YACR
         // error
     }
 
+    QT_WARNING_PUSH
+    QT_WARNING_DISABLE_DEPRECATED
     optionsDialog->setFilters(currentComicDB.info.brightness, currentComicDB.info.contrast, currentComicDB.info.gamma);
+    QT_WARNING_POP
 }
 
 void MainWindowViewer::openComicFromPath(QString pathFile)
