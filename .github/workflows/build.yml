@@ -66,6 +66,8 @@ jobs:
       - name: Bundle unarr source
         run: |
           curl -L https://github.com/selmf/unarr/archive/refs/heads/master.tar.gz | tar xz -C compressed_archive/unarr/
+          sed -e 's/@unarr_VERSION_MAJOR@/1/' -e 's/@unarr_VERSION_MINOR@/2/' -e 's/@unarr_VERSION_PATCH@/0/' -e 's/@unarr_VERSION@/1.2.0/' \
+            compressed_archive/unarr/unarr-master/unarr.h.in > compressed_archive/unarr/unarr-master/unarr.h
 
       - name: Build
         run: |
@@ -124,6 +126,8 @@ jobs:
       - name: Bundle unarr source
         run: |
           curl -L https://github.com/selmf/unarr/archive/refs/heads/master.tar.gz | tar xz -C compressed_archive/unarr/
+          sed -e 's/@unarr_VERSION_MAJOR@/1/' -e 's/@unarr_VERSION_MINOR@/2/' -e 's/@unarr_VERSION_PATCH@/0/' -e 's/@unarr_VERSION@/1.2.0/' \
+            compressed_archive/unarr/unarr-master/unarr.h.in > compressed_archive/unarr/unarr-master/unarr.h
 
       - name: Build
         run: |
