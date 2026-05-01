@@ -60,8 +60,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y qtchooser qtbase5-dev-tools qt5-qmake \
           qtbase5-dev qtmultimedia5-dev libpoppler-qt5-dev qttools5-dev-tools \
-          libqt5opengl5-dev libunarr-dev qtdeclarative5-dev libqt5svg5-dev qtquickcontrols2-5-dev \
+          libqt5opengl5-dev qtdeclarative5-dev libqt5svg5-dev qtquickcontrols2-5-dev \
           dpkg-dev debhelper
+
+      - name: Bundle unarr source
+        run: |
+          curl -L https://github.com/selmf/unarr/archive/refs/heads/master.tar.gz | tar xz -C compressed_archive/unarr/
 
       - name: Build
         run: |
@@ -90,7 +94,7 @@ jobs:
           Section: Graphics
           Priority: optional
           Architecture: amd64
-          Depends: libqt5opengl5, libpoppler-qt5-1, libunarr1, libqt5quick5, libqt5quickwidgets5, libqt5quickcontrols2-5
+          Depends: libqt5opengl5, libpoppler-qt5-1, libqt5quick5, libqt5quickwidgets5, libqt5quickcontrols2-5
           Maintainer: YACReader
           Description: YACReader comic book reader
           EOF
@@ -114,8 +118,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y qtchooser qt6-tools-dev qt6-base-dev-tools qmake6 qmake6-bin \
           qt6-base-dev qt6-multimedia-dev qt6-tools-dev-tools libgl-dev qt6-l10n-tools \
-          libqt6opengl6-dev libunarr-dev qt6-declarative-dev libqt6svg6-dev libqt6core5compat6-dev libpoppler-qt6-dev \
+          libqt6opengl6-dev qt6-declarative-dev libqt6svg6-dev libqt6core5compat6-dev libpoppler-qt6-dev \
           dpkg-dev debhelper
+
+      - name: Bundle unarr source
+        run: |
+          curl -L https://github.com/selmf/unarr/archive/refs/heads/master.tar.gz | tar xz -C compressed_archive/unarr/
 
       - name: Build
         run: |
@@ -146,7 +154,7 @@ jobs:
           Section: Graphics
           Priority: optional
           Architecture: amd64
-          Depends: libqt6opengl6, libpoppler-qt6-3, libunarr1, libqt6multimedia6, libqt6core5compat6, libqt6svg6, qt6-declarative-dev, qml6-module-qt5compat-graphicaleffects, qml6-module-qtquick-templates
+          Depends: libqt6opengl6, libpoppler-qt6-3, libqt6multimedia6, libqt6core5compat6, libqt6svg6, qt6-declarative-dev, qml6-module-qt5compat-graphicaleffects, qml6-module-qtquick-templates
           Maintainer: YACReader
           Description: YACReader comic book reader
           EOF
