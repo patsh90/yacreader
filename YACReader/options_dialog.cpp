@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <QColorDialog>
 #include <QCheckBox>
+#include <QScrollArea>
 
 #include "yacreader_spin_slider_widget.h"
 #include "yacreader_flow_config_widget.h"
@@ -28,7 +29,7 @@ OptionsDialog::OptionsDialog(QWidget *parent)
 
     // GENERAL -------------------------------------------
 
-    QWidget *pageGeneral = new QWidget();
+    QWidget *pageGeneralContent = new QWidget();
     auto layoutGeneral = new QVBoxLayout();
 
     QGroupBox *pathBox = new QGroupBox(tr("My comics path"));
@@ -220,7 +221,11 @@ OptionsDialog::OptionsDialog(QWidget *parent)
 
     // IMAGE ADJUSTMENTS END -----------------------------
 
-    pageGeneral->setLayout(layoutGeneral);
+    pageGeneralContent->setLayout(layoutGeneral);
+    auto pageGeneral = new QScrollArea();
+    pageGeneral->setWidgetResizable(true);
+    pageGeneral->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    pageGeneral->setWidget(pageGeneralContent);
     pageFlow->setLayout(layoutFlow);
     pageImage->setLayout(layoutImageV);
 
