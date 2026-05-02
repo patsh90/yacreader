@@ -90,7 +90,7 @@ jobs:
           Section: Graphics
           Priority: optional
           Architecture: amd64
-          Depends: libqt5opengl5, libpoppler-qt5-1, libqt5quick5, libqt5quickwidgets5, libqt5quickcontrols2-5, libunarr1
+          Depends: libqt5opengl5, libpoppler-qt5-1, libqt5quick5, libqt5quickwidgets5, libqt5quickcontrols2-5, libunarr1, qt5-image-formats-plugins
           Maintainer: YACReader
           Description: YACReader comic book reader
           EOF
@@ -146,7 +146,7 @@ jobs:
           Section: Graphics
           Priority: optional
           Architecture: amd64
-          Depends: libqt6opengl6, libpoppler-qt6-3, libqt6multimedia6, libqt6core5compat6, libqt6svg6, qt6-declarative-dev, qml6-module-qt5compat-graphicaleffects, qml6-module-qtquick-templates, libunarr1
+          Depends: libqt6opengl6, libpoppler-qt6-3, libqt6multimedia6, libqt6core5compat6, libqt6svg6, qt6-declarative-dev, qml6-module-qt5compat-graphicaleffects, qml6-module-qtquick-templates, libunarr1, qt6-image-formats-plugins
           Maintainer: YACReader
           Description: YACReader comic book reader
           EOF
